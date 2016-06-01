@@ -1,0 +1,275 @@
+console.o: console.c /home/vocore/uboot/include/common.h \
+ /home/vocore/uboot/include/config.h \
+ /home/vocore/uboot/include/configs/rt2880.h \
+ /home/vocore/uboot/include/configs/../../autoconf.h \
+ /home/vocore/uboot/include/cmd_confdefs.h \
+ /home/vocore/uboot/include/linux/bitops.h \
+ /home/vocore/uboot/include/asm/bitops.h \
+ /home/vocore/uboot/include/linux/types.h \
+ /home/vocore/uboot/include/linux/config.h \
+ /home/vocore/uboot/include/linux/posix_types.h \
+ /home/vocore/uboot/include/linux/stddef.h \
+ /home/vocore/uboot/include/asm/posix_types.h \
+ /home/vocore/uboot/include/asm/types.h \
+ /home/vocore/uboot/include/asm/byteorder.h \
+ /home/vocore/uboot/include/linux/byteorder/little_endian.h \
+ /home/vocore/uboot/include/linux/byteorder/swab.h \
+ /home/vocore/uboot/include/linux/byteorder/generic.h \
+ /home/vocore/uboot/include/asm/sgidefs.h \
+ /home/vocore/uboot/include/asm/system.h \
+ /home/vocore/uboot/include/asm/ptrace.h \
+ /home/vocore/uboot/include/asm/isadep.h \
+ /home/vocore/uboot/include/linux/string.h \
+ /opt/buildroot-gcc463/usr/lib/gcc/mipsel-buildroot-linux-uclibc/4.6.3/include/stdarg.h \
+ /home/vocore/uboot/include/part.h /home/vocore/uboot/include/ide.h \
+ /home/vocore/uboot/include/flash.h /home/vocore/uboot/include/image.h \
+ /home/vocore/uboot/include/asm/u-boot.h \
+ /home/vocore/uboot/include/asm/global_data.h \
+ /home/vocore/uboot/include/asm/regdef.h \
+ /home/vocore/uboot/include/malloc.h /home/vocore/uboot/include/console.h \
+ /home/vocore/uboot/include/devices.h /home/vocore/uboot/include/lists.h \
+ /home/vocore/uboot/include/exports.h \
+ /home/vocore/uboot/include/_exports.h
+devices.o: devices.c /home/vocore/uboot/include/config.h \
+ /home/vocore/uboot/include/configs/rt2880.h \
+ /home/vocore/uboot/include/configs/../../autoconf.h \
+ /home/vocore/uboot/include/cmd_confdefs.h \
+ /home/vocore/uboot/include/common.h \
+ /home/vocore/uboot/include/linux/bitops.h \
+ /home/vocore/uboot/include/asm/bitops.h \
+ /home/vocore/uboot/include/linux/types.h \
+ /home/vocore/uboot/include/linux/config.h \
+ /home/vocore/uboot/include/linux/posix_types.h \
+ /home/vocore/uboot/include/linux/stddef.h \
+ /home/vocore/uboot/include/asm/posix_types.h \
+ /home/vocore/uboot/include/asm/types.h \
+ /home/vocore/uboot/include/asm/byteorder.h \
+ /home/vocore/uboot/include/linux/byteorder/little_endian.h \
+ /home/vocore/uboot/include/linux/byteorder/swab.h \
+ /home/vocore/uboot/include/linux/byteorder/generic.h \
+ /home/vocore/uboot/include/asm/sgidefs.h \
+ /home/vocore/uboot/include/asm/system.h \
+ /home/vocore/uboot/include/asm/ptrace.h \
+ /home/vocore/uboot/include/asm/isadep.h \
+ /home/vocore/uboot/include/linux/string.h \
+ /opt/buildroot-gcc463/usr/lib/gcc/mipsel-buildroot-linux-uclibc/4.6.3/include/stdarg.h \
+ /home/vocore/uboot/include/part.h /home/vocore/uboot/include/ide.h \
+ /home/vocore/uboot/include/flash.h /home/vocore/uboot/include/image.h \
+ /home/vocore/uboot/include/asm/u-boot.h \
+ /home/vocore/uboot/include/asm/global_data.h \
+ /home/vocore/uboot/include/asm/regdef.h \
+ /home/vocore/uboot/include/malloc.h /home/vocore/uboot/include/devices.h \
+ /home/vocore/uboot/include/lists.h /home/vocore/uboot/include/serial.h
+dlmalloc.o: dlmalloc.c /home/vocore/uboot/include/malloc.h \
+ /home/vocore/uboot/include/linux/stddef.h \
+ /home/vocore/uboot/include/linux/types.h \
+ /home/vocore/uboot/include/linux/config.h \
+ /home/vocore/uboot/include/linux/posix_types.h \
+ /home/vocore/uboot/include/asm/posix_types.h \
+ /home/vocore/uboot/include/asm/types.h \
+ /home/vocore/uboot/include/common.h /home/vocore/uboot/include/config.h \
+ /home/vocore/uboot/include/configs/rt2880.h \
+ /home/vocore/uboot/include/configs/../../autoconf.h \
+ /home/vocore/uboot/include/cmd_confdefs.h \
+ /home/vocore/uboot/include/linux/bitops.h \
+ /home/vocore/uboot/include/asm/bitops.h \
+ /home/vocore/uboot/include/asm/byteorder.h \
+ /home/vocore/uboot/include/linux/byteorder/little_endian.h \
+ /home/vocore/uboot/include/linux/byteorder/swab.h \
+ /home/vocore/uboot/include/linux/byteorder/generic.h \
+ /home/vocore/uboot/include/asm/sgidefs.h \
+ /home/vocore/uboot/include/asm/system.h \
+ /home/vocore/uboot/include/asm/ptrace.h \
+ /home/vocore/uboot/include/asm/isadep.h \
+ /home/vocore/uboot/include/linux/string.h \
+ /opt/buildroot-gcc463/usr/lib/gcc/mipsel-buildroot-linux-uclibc/4.6.3/include/stdarg.h \
+ /home/vocore/uboot/include/part.h /home/vocore/uboot/include/ide.h \
+ /home/vocore/uboot/include/flash.h /home/vocore/uboot/include/image.h \
+ /home/vocore/uboot/include/asm/u-boot.h \
+ /home/vocore/uboot/include/asm/global_data.h \
+ /home/vocore/uboot/include/asm/regdef.h
+env_common.o: env_common.c /home/vocore/uboot/include/common.h \
+ /home/vocore/uboot/include/config.h \
+ /home/vocore/uboot/include/configs/rt2880.h \
+ /home/vocore/uboot/include/configs/../../autoconf.h \
+ /home/vocore/uboot/include/cmd_confdefs.h \
+ /home/vocore/uboot/include/linux/bitops.h \
+ /home/vocore/uboot/include/asm/bitops.h \
+ /home/vocore/uboot/include/linux/types.h \
+ /home/vocore/uboot/include/linux/config.h \
+ /home/vocore/uboot/include/linux/posix_types.h \
+ /home/vocore/uboot/include/linux/stddef.h \
+ /home/vocore/uboot/include/asm/posix_types.h \
+ /home/vocore/uboot/include/asm/types.h \
+ /home/vocore/uboot/include/asm/byteorder.h \
+ /home/vocore/uboot/include/linux/byteorder/little_endian.h \
+ /home/vocore/uboot/include/linux/byteorder/swab.h \
+ /home/vocore/uboot/include/linux/byteorder/generic.h \
+ /home/vocore/uboot/include/asm/sgidefs.h \
+ /home/vocore/uboot/include/asm/system.h \
+ /home/vocore/uboot/include/asm/ptrace.h \
+ /home/vocore/uboot/include/asm/isadep.h \
+ /home/vocore/uboot/include/linux/string.h \
+ /opt/buildroot-gcc463/usr/lib/gcc/mipsel-buildroot-linux-uclibc/4.6.3/include/stdarg.h \
+ /home/vocore/uboot/include/part.h /home/vocore/uboot/include/ide.h \
+ /home/vocore/uboot/include/flash.h /home/vocore/uboot/include/image.h \
+ /home/vocore/uboot/include/asm/u-boot.h \
+ /home/vocore/uboot/include/asm/global_data.h \
+ /home/vocore/uboot/include/asm/regdef.h \
+ /home/vocore/uboot/include/command.h \
+ /home/vocore/uboot/include/environment.h \
+ /home/vocore/uboot/include/malloc.h
+exports.o: exports.c /home/vocore/uboot/include/common.h \
+ /home/vocore/uboot/include/config.h \
+ /home/vocore/uboot/include/configs/rt2880.h \
+ /home/vocore/uboot/include/configs/../../autoconf.h \
+ /home/vocore/uboot/include/cmd_confdefs.h \
+ /home/vocore/uboot/include/linux/bitops.h \
+ /home/vocore/uboot/include/asm/bitops.h \
+ /home/vocore/uboot/include/linux/types.h \
+ /home/vocore/uboot/include/linux/config.h \
+ /home/vocore/uboot/include/linux/posix_types.h \
+ /home/vocore/uboot/include/linux/stddef.h \
+ /home/vocore/uboot/include/asm/posix_types.h \
+ /home/vocore/uboot/include/asm/types.h \
+ /home/vocore/uboot/include/asm/byteorder.h \
+ /home/vocore/uboot/include/linux/byteorder/little_endian.h \
+ /home/vocore/uboot/include/linux/byteorder/swab.h \
+ /home/vocore/uboot/include/linux/byteorder/generic.h \
+ /home/vocore/uboot/include/asm/sgidefs.h \
+ /home/vocore/uboot/include/asm/system.h \
+ /home/vocore/uboot/include/asm/ptrace.h \
+ /home/vocore/uboot/include/asm/isadep.h \
+ /home/vocore/uboot/include/linux/string.h \
+ /opt/buildroot-gcc463/usr/lib/gcc/mipsel-buildroot-linux-uclibc/4.6.3/include/stdarg.h \
+ /home/vocore/uboot/include/part.h /home/vocore/uboot/include/ide.h \
+ /home/vocore/uboot/include/flash.h /home/vocore/uboot/include/image.h \
+ /home/vocore/uboot/include/asm/u-boot.h \
+ /home/vocore/uboot/include/asm/global_data.h \
+ /home/vocore/uboot/include/asm/regdef.h \
+ /home/vocore/uboot/include/exports.h \
+ /home/vocore/uboot/include/_exports.h
+lists.o: lists.c /home/vocore/uboot/include/common.h \
+ /home/vocore/uboot/include/config.h \
+ /home/vocore/uboot/include/configs/rt2880.h \
+ /home/vocore/uboot/include/configs/../../autoconf.h \
+ /home/vocore/uboot/include/cmd_confdefs.h \
+ /home/vocore/uboot/include/linux/bitops.h \
+ /home/vocore/uboot/include/asm/bitops.h \
+ /home/vocore/uboot/include/linux/types.h \
+ /home/vocore/uboot/include/linux/config.h \
+ /home/vocore/uboot/include/linux/posix_types.h \
+ /home/vocore/uboot/include/linux/stddef.h \
+ /home/vocore/uboot/include/asm/posix_types.h \
+ /home/vocore/uboot/include/asm/types.h \
+ /home/vocore/uboot/include/asm/byteorder.h \
+ /home/vocore/uboot/include/linux/byteorder/little_endian.h \
+ /home/vocore/uboot/include/linux/byteorder/swab.h \
+ /home/vocore/uboot/include/linux/byteorder/generic.h \
+ /home/vocore/uboot/include/asm/sgidefs.h \
+ /home/vocore/uboot/include/asm/system.h \
+ /home/vocore/uboot/include/asm/ptrace.h \
+ /home/vocore/uboot/include/asm/isadep.h \
+ /home/vocore/uboot/include/linux/string.h \
+ /opt/buildroot-gcc463/usr/lib/gcc/mipsel-buildroot-linux-uclibc/4.6.3/include/stdarg.h \
+ /home/vocore/uboot/include/part.h /home/vocore/uboot/include/ide.h \
+ /home/vocore/uboot/include/flash.h /home/vocore/uboot/include/image.h \
+ /home/vocore/uboot/include/asm/u-boot.h \
+ /home/vocore/uboot/include/asm/global_data.h \
+ /home/vocore/uboot/include/asm/regdef.h \
+ /home/vocore/uboot/include/malloc.h /home/vocore/uboot/include/lists.h
+cmd_nvedit.o: cmd_nvedit.c /home/vocore/uboot/include/common.h \
+ /home/vocore/uboot/include/config.h \
+ /home/vocore/uboot/include/configs/rt2880.h \
+ /home/vocore/uboot/include/configs/../../autoconf.h \
+ /home/vocore/uboot/include/cmd_confdefs.h \
+ /home/vocore/uboot/include/linux/bitops.h \
+ /home/vocore/uboot/include/asm/bitops.h \
+ /home/vocore/uboot/include/linux/types.h \
+ /home/vocore/uboot/include/linux/config.h \
+ /home/vocore/uboot/include/linux/posix_types.h \
+ /home/vocore/uboot/include/linux/stddef.h \
+ /home/vocore/uboot/include/asm/posix_types.h \
+ /home/vocore/uboot/include/asm/types.h \
+ /home/vocore/uboot/include/asm/byteorder.h \
+ /home/vocore/uboot/include/linux/byteorder/little_endian.h \
+ /home/vocore/uboot/include/linux/byteorder/swab.h \
+ /home/vocore/uboot/include/linux/byteorder/generic.h \
+ /home/vocore/uboot/include/asm/sgidefs.h \
+ /home/vocore/uboot/include/asm/system.h \
+ /home/vocore/uboot/include/asm/ptrace.h \
+ /home/vocore/uboot/include/asm/isadep.h \
+ /home/vocore/uboot/include/linux/string.h \
+ /opt/buildroot-gcc463/usr/lib/gcc/mipsel-buildroot-linux-uclibc/4.6.3/include/stdarg.h \
+ /home/vocore/uboot/include/part.h /home/vocore/uboot/include/ide.h \
+ /home/vocore/uboot/include/flash.h /home/vocore/uboot/include/image.h \
+ /home/vocore/uboot/include/asm/u-boot.h \
+ /home/vocore/uboot/include/asm/global_data.h \
+ /home/vocore/uboot/include/asm/regdef.h \
+ /home/vocore/uboot/include/command.h \
+ /home/vocore/uboot/include/environment.h \
+ /home/vocore/uboot/include/watchdog.h \
+ /home/vocore/uboot/include/serial.h /home/vocore/uboot/include/rt_mmap.h \
+ /home/vocore/uboot/include/net.h
+cmd_bootm.o: cmd_bootm.c /home/vocore/uboot/include/common.h \
+ /home/vocore/uboot/include/config.h \
+ /home/vocore/uboot/include/configs/rt2880.h \
+ /home/vocore/uboot/include/configs/../../autoconf.h \
+ /home/vocore/uboot/include/cmd_confdefs.h \
+ /home/vocore/uboot/include/linux/bitops.h \
+ /home/vocore/uboot/include/asm/bitops.h \
+ /home/vocore/uboot/include/linux/types.h \
+ /home/vocore/uboot/include/linux/config.h \
+ /home/vocore/uboot/include/linux/posix_types.h \
+ /home/vocore/uboot/include/linux/stddef.h \
+ /home/vocore/uboot/include/asm/posix_types.h \
+ /home/vocore/uboot/include/asm/types.h \
+ /home/vocore/uboot/include/asm/byteorder.h \
+ /home/vocore/uboot/include/linux/byteorder/little_endian.h \
+ /home/vocore/uboot/include/linux/byteorder/swab.h \
+ /home/vocore/uboot/include/linux/byteorder/generic.h \
+ /home/vocore/uboot/include/asm/sgidefs.h \
+ /home/vocore/uboot/include/asm/system.h \
+ /home/vocore/uboot/include/asm/ptrace.h \
+ /home/vocore/uboot/include/asm/isadep.h \
+ /home/vocore/uboot/include/linux/string.h \
+ /opt/buildroot-gcc463/usr/lib/gcc/mipsel-buildroot-linux-uclibc/4.6.3/include/stdarg.h \
+ /home/vocore/uboot/include/part.h /home/vocore/uboot/include/ide.h \
+ /home/vocore/uboot/include/flash.h /home/vocore/uboot/include/image.h \
+ /home/vocore/uboot/include/asm/u-boot.h \
+ /home/vocore/uboot/include/asm/global_data.h \
+ /home/vocore/uboot/include/asm/regdef.h \
+ /home/vocore/uboot/include/watchdog.h \
+ /home/vocore/uboot/include/command.h /home/vocore/uboot/include/malloc.h \
+ /home/vocore/uboot/include/rt_mmap.h \
+ /home/vocore/uboot/include/environment.h \
+ /home/vocore/uboot/include/LzmaDecode.h
+cmd_net.o: cmd_net.c /home/vocore/uboot/include/common.h \
+ /home/vocore/uboot/include/config.h \
+ /home/vocore/uboot/include/configs/rt2880.h \
+ /home/vocore/uboot/include/configs/../../autoconf.h \
+ /home/vocore/uboot/include/cmd_confdefs.h \
+ /home/vocore/uboot/include/linux/bitops.h \
+ /home/vocore/uboot/include/asm/bitops.h \
+ /home/vocore/uboot/include/linux/types.h \
+ /home/vocore/uboot/include/linux/config.h \
+ /home/vocore/uboot/include/linux/posix_types.h \
+ /home/vocore/uboot/include/linux/stddef.h \
+ /home/vocore/uboot/include/asm/posix_types.h \
+ /home/vocore/uboot/include/asm/types.h \
+ /home/vocore/uboot/include/asm/byteorder.h \
+ /home/vocore/uboot/include/linux/byteorder/little_endian.h \
+ /home/vocore/uboot/include/linux/byteorder/swab.h \
+ /home/vocore/uboot/include/linux/byteorder/generic.h \
+ /home/vocore/uboot/include/asm/sgidefs.h \
+ /home/vocore/uboot/include/asm/system.h \
+ /home/vocore/uboot/include/asm/ptrace.h \
+ /home/vocore/uboot/include/asm/isadep.h \
+ /home/vocore/uboot/include/linux/string.h \
+ /opt/buildroot-gcc463/usr/lib/gcc/mipsel-buildroot-linux-uclibc/4.6.3/include/stdarg.h \
+ /home/vocore/uboot/include/part.h /home/vocore/uboot/include/ide.h \
+ /home/vocore/uboot/include/flash.h /home/vocore/uboot/include/image.h \
+ /home/vocore/uboot/include/asm/u-boot.h \
+ /home/vocore/uboot/include/asm/global_data.h \
+ /home/vocore/uboot/include/asm/regdef.h \
+ /home/vocore/uboot/include/command.h /home/vocore/uboot/include/net.h
