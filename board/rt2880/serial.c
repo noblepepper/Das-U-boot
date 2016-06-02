@@ -220,7 +220,7 @@ void serial_setbrg (void)
 #if CONFIG_BAUDRATE <= 115200
 	clock_divisor = (40*1000*1000/ SERIAL_CLOCK_DIVISOR / CONFIG_BAUDRATE);
 #endif
-#if CONFIG_BAUDRATE = 230400
+#if CONFIG_BAUDRATE == 230400
 	clock_divisor = (40*1000*1000/ SERIAL_CLOCK_DIVISOR * 2 / CONFIG_BAUDRATE);
 	/* set uart to high speed mode 1 */
 	HSP(CFG_RT2880_CONSOLE) = 0X01;
