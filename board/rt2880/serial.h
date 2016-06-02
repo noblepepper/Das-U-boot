@@ -38,6 +38,7 @@
 #define RT2880_UART_LSR_OFFSET	0x14
 #define RT2880_UART_DLL_OFFSET	0x00
 #define RT2880_UART_DLM_OFFSET	0x04
+#define RT2880_UART_HSP_OFFSET	0x24
 #else
 #define RT2880_UART_RBR_OFFSET	0x00
 #define RT2880_UART_TBR_OFFSET	0x04
@@ -61,6 +62,7 @@
 #define LSR(x)		__REG(RALINK_SYSCTL_BASE+(x)+RT2880_UART_LSR_OFFSET)
 #define DLL(x)		__REG(RALINK_SYSCTL_BASE+(x)+RT2880_UART_DLL_OFFSET)
 #define DLM(x)		__REG(RALINK_SYSCTL_BASE+(x)+RT2880_UART_DLM_OFFSET)
+#define HSP(x)		__REG(RALINK_SYSCTL_BASE+(x)+RT2880_UART_DLM_OFFSET)
 
 #define IER_ELSI	(1 << 2)	/* Receiver Line Status Interrupt Enable */
 #define IER_ETBEI	(1 << 1)	/* Transmit Buffer Empty Interrupt Enable */
