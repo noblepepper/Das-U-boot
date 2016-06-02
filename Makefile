@@ -47,7 +47,7 @@ export	TOPDIR
 ifeq ($(MT7621_MP), y)
 CONFIG_CROSS_COMPILER_PATH ?= /opt/mips-2012.03/bin/
 else
-CONFIG_CROSS_COMPILER_PATH ?= /opt/buildroot-gcc342/bin
+CONFIG_CROSS_COMPILER_PATH ?= /home/pep/vocore/ralink_sdk_compile_test/Uboot/toolchain/bin
 endif
 
 ifeq (include/config.mk,$(wildcard include/config.mk))
