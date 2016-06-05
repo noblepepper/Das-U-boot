@@ -184,16 +184,18 @@ OBJS += cpu/$(CPU)/resetvec.o
 endif
 
 LIBS  = lib_generic/libgeneric.a
+LIBS += common/libcommon.a
 LIBS += board/$(BOARDDIR)/lib$(BOARD).a
 LIBS += cpu/$(CPU)/lib$(CPU).a
 ifdef SOC
 LIBS += cpu/$(CPU)/$(SOC)/lib$(SOC).a
 endif
 LIBS += lib_$(ARCH)/lib$(ARCH).a
+LIBS += drivers/libdrivers.a
 LIBS += net/libnet.a
 
-#LIBS += rtc/librtc.a
-LIBS += drivers/libdrivers.a
+LIBS += rtc/librtc.a
+LIBS += httpd/libhttpd.a
 
 ifeq ($(RALINK_USB),ON)
 LIBS += fs/fat/libfat.a

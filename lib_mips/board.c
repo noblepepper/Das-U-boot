@@ -885,7 +885,46 @@ __attribute__((nomips16)) void board_init_f(ulong bootflag)
 #define SEL_LOAD_BOOT_WRITE_FLASH_BY_SERIAL 7
 #define SEL_LOAD_BOOT_SDRAM             8
 #define SEL_LOAD_BOOT_WRITE_FLASH       9
+#define SEL_LOAD_WEBPAGE		8
 
+#define DEFAULT_GPIO_FOR_WEBMODE 0
+#define GPIO_REG 0x10000600
+
+#define ra_inl(addr)  (*(volatile u32 *)(addr))
+#define ra_outl(addr, value)  (*(volatile u32 *)(addr) = (value))
+#define ra_and(addr, value) ra_outl(addr, (ra_inl(addr) & (value)))
+#define ra_or(addr, value) ra_outl(addr, (ra_inl(addr) | (value)))
+int webgpio;
+int reset_button_enable(int gpio){
+	/* set gpio0 as input */
+	ra_and(GPIO_REG + 0x0024, 0xFFFFFFFE);
+	/* set gpio 27 as input*/
+	ra_and(GPIO_REG + 0x0074, ~(0x0001 << 5) );
+	if ((ra_inl(GPIO_REG + 0x0024) & 0x00000001) == 0x00000000){
+		printf("Hold GPIO %i high for 3 then release to trigger webpage to load image\n", webgpio);
+		return 1;
+	}else{
+		return 0;
+	}
+}	
+int reset_button_status(void){
+
+/*	if (ra_inl(GPIO_REG + 0x0020) & 0x0001 == 0x00000001){
+ *			return 1;
+ *				}*/
+/*	if ((((ra_inl(GPIO_REG + 0x0070) & (0x0001 << 5))  >> 5) == 0x00000001) || (ra_inl(GPIO_REG + 0x0020) & 0x0001 == 0x00000001))*/
+	if (webgpio == 0){
+		if ( (ra_inl(GPIO_REG + 0x0020) & 0x0001 == 0x00000001) ){
+			return 1;
+		}
+	}else if (webgpio == 27){
+		if ( (((ra_inl(GPIO_REG + 0x0070) & (0x0001 << 5))  >> 5) == 0x00000001) ){
+			return 1;
+		}
+	}
+	return 0;
+				
+}
 
 void OperationSelect(void)
 {
@@ -900,6 +939,7 @@ void OperationSelect(void)
 	printf("   %d: Load Boot Loader code then write to Flash via Serial. \n", SEL_LOAD_BOOT_WRITE_FLASH_BY_SERIAL);
 #endif // RALINK_UPGRADE_BY_SERIAL //
 	printf("   %d: Load Boot Loader code then write to Flash via TFTP. \n", SEL_LOAD_BOOT_WRITE_FLASH);
+	printf("   %d: Start Web Server to load system code. \n", SEL_LOAD_WEBPAGE);
 }
 
 int tftp_config(int type, char *argv[])
@@ -1313,6 +1353,7 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
 	int timer1= CONFIG_BOOTDELAY;
 	unsigned char BootType='3', confirm=0;
 	int my_tmp;
+	int gotconnection;
 	char addr_str[11];
 #if defined (CFG_ENV_IS_IN_FLASH)
 	ulong e_end;
@@ -1960,6 +2001,20 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
 	    s = getenv ("bootdelay");
 	    timer1 = s ? (int)simple_strtol(s, NULL, 10) : CONFIG_BOOTDELAY;
 	}
+	int web_enabled, reset_button, threeseconds = 0, web_timer = 0;
+	{
+	    char * s;
+   	    s = getenv ("webgpio");
+    	    webgpio = s ? (int)simple_strtol(s, NULL, 10) : CONFIG_WEBGPIO;
+    	}
+	if (webgpio == 27){
+		web_enabled = reset_button_enable(0);
+	}else{
+		web_enabled = reset_button_enable(0);
+	}
+	reset_button = reset_button_status();
+	printf("GPIO %i used to trigger webpage\n", webgpio);
+	printf("GPIO %i is %s \n", webgpio, (reset_button ? "high" : "low"));
 
 	OperationSelect();   
 	while (timer1 > 0) {
@@ -1971,9 +2026,25 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
 				BootType = getc();
 				if ((BootType < '0' || BootType > '5') && (BootType != '7') && (BootType != '8') && (BootType != '9'))
 					BootType = '3';
-				printf("\n\rYou choosed %c\n\n", BootType);
+				printf("\n\rYou chose %c\n\n", BootType);
 				break;
 			}
+			if (reset_button_status() != reset_button){
+				printf("GPIO %i went %s\n", webgpio, reset_button ? "low" : "high");
+				reset_button = (reset_button == 0) ? 1 : 0;
+			}
+			if (reset_button == 1 && web_enabled){
+				web_timer += 1;
+				if (web_timer == 300){
+					printf("release GPIO %i now\n", webgpio);
+					threeseconds = 1;
+				}
+			}
+			if (reset_button == 0) web_timer = 0;
+			if (reset_button == 0 && threeseconds == 1 && web_timer <= 500){
+				BootType = '8';
+				break;
+			}	
 			udelay (10000);
 		}
 		printf ("\b\b\b%2d ", timer1);
@@ -2151,13 +2222,17 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
 			break;
 #endif // RALINK_UPGRADE_BY_SERIAL //
 		case '8':
+				NetLoopHttpd();
+				break;
+#if 0
+		case '8':
 			printf("   \n%d: System Load UBoot to SDRAM via TFTP. \n", SEL_LOAD_BOOT_SDRAM);
 			tftp_config(SEL_LOAD_BOOT_SDRAM, argv);
 			argc= 3;
 			setenv("autostart", "yes");
 			do_tftpb(cmdtp, 0, argc, argv);
 			break;
-
+#endif
 		case '9':
 			printf("   \n%d: System Load Boot Loader then write to Flash via TFTP. \n", SEL_LOAD_BOOT_WRITE_FLASH);
 			printf(" Warning!! Erase Boot Loader in Flash then burn new one. Are you sure?(Y/N)\n");

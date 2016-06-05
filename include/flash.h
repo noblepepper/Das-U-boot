@@ -117,6 +117,8 @@ extern void flash_read_factory_serial(flash_info_t * info, void * buffer, int of
 /*-----------------------------------------------------------------------
  * Device IDs
  */
+#define FLASH_CUSTOM	0X1111
+#define FLASH_UNKNOWN	0XFFFF
 
 #define AMD_MANUFACT	0x00010001	/* AMD	   manuf. ID in D23..D16, D7..D0 */
 #define FUJ_MANUFACT	0x00040004	/* FUJITSU manuf. ID in D23..D16, D7..D0 */
