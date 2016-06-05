@@ -94,13 +94,13 @@ extern unsigned int  CFG_BLOCKSIZE;
 
 #define CONFIG_BOOTDELAY	5	/* autoboot after 5 seconds	*/
 
-#define CONFIG_BAUDRATE		57600
+#define CONFIG_BAUDRATE	460800
 
 #define CONFIG_SERVERIP 10.10.10.3
 #define CONFIG_IPADDR 10.10.10.123
 #define CONFIG_ETHADDR "00:AA:BB:CC:DD:10"
 /* valid baudrates */
-#define CFG_BAUDRATE_TABLE	{ 9600, 19200, 38400, 57600, 115200 }
+#define CFG_BAUDRATE_TABLE	{ 9600, 19200, 38400, 57600, 115200, 230400, 460800 }
 
 //#define	CONFIG_TIMESTAMP		/* Print image info with timestamp */
 

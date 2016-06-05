@@ -219,13 +219,11 @@ void serial_setbrg (void)
 #elif defined(MT7628_ASIC_BOARD) || defined(MT7628_FPGA_BOARD)
 #if CONFIG_BAUDRATE <= 115200
 	clock_divisor = (40*1000*1000/ SERIAL_CLOCK_DIVISOR / CONFIG_BAUDRATE);
-#endif
-#if CONFIG_BAUDRATE == 230400
+#elif CONFIG_BAUDRATE == 230400
 	clock_divisor = (40*1000*1000/ SERIAL_CLOCK_DIVISOR * 2 / CONFIG_BAUDRATE);
 	/* set uart to high speed mode 1 */
 	HSP(CFG_RT2880_CONSOLE) = 0X01;
-#endif
-#if CONFIG_BAUDRATE > 230400
+#elif CONFIG_BAUDRATE > 230400
 	clock_divisor = (40*1000*1000/ SERIAL_CLOCK_DIVISOR * 4 / CONFIG_BAUDRATE);
 	/* set uart to high speed mode 2 */
 	HSP(CFG_RT2880_CONSOLE) = 0X02;
