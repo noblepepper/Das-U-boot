@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Firmware upgrade</title>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<div id="main">
+			<h1><img src="logo_002.png">
+			<br>Firmware Upgrade</h1>
+			<p>You are going to upload new firmware image for the router. Please, choose appropriate file from your local hard drive and click <strong>Upload</strong>.
+			<br>The file will be downloaded, stored in <strong>RAM</strong> and then copied to <strong>FLASH</strong>.
+			</p>
+			<form method="post" enctype="multipart/form-data">
+				<strong class="padd">Firmware image:</strong>
+				<input type="file" name="firmware">
+				<input type="submit" value="Upload">
+			</form>
+			<div class="info warn">
+				<strong>WARNINGS</strong><ul>
+					<li>do not power off the device during upload</li>
+					<li>if everything goes well, the router will restart and try to boot new image from FLASH</li>
+					<li>in case of any error during or after image upload, LED(s) will blink fast for a while and then the web failsafe mode will restart</li>
+					<li>you can upload whatever you want, so be sure that you choose proper firmware image for your router!</li>
+				</ul>
+			</div>
+		</div>
+		<div class="foot">
+			You can find more information about this project on <a href="https://github.com/pepe2k/u-boot_mod" target="_blank">GitHub</a>.
+	</body>
+</html>

@@ -882,59 +882,82 @@ __attribute__((nomips16)) void board_init_f(ulong bootflag)
 #define SEL_LOAD_LINUX_WRITE_FLASH      2
 #define SEL_BOOT_FLASH                  3
 #define SEL_ENTER_CLI                   4
+#define SEL_LOAD_LINUX_WRITE_FLASH_BY_USB	5
 #define SEL_LOAD_BOOT_WRITE_FLASH_BY_SERIAL 7
 #define SEL_LOAD_BOOT_SDRAM             8
 #define SEL_LOAD_BOOT_WRITE_FLASH       9
 #define SEL_LOAD_WEBPAGE		8
 
 #define DEFAULT_GPIO_FOR_WEBMODE 0
-#define GPIO_REG 0x10000600
+
+#define GPIO_SYSCTL	0x10000000
+#define GPIO2_MODE	0x00000064
+
+#define GPIO_REG	0x10000600
+#define GPIO_DIR_0	0X00000000
+#define GPIO_DIR_1	0X00000004
+#define GPIO_DIR_2	0X00000008
+#define GPIO_DATA_0	0X00000020
+#define GPIO_DATA_1	0X00000024
+#define GPIO_DATA_2	0X00000028
+#define GPIO_POL_0	0X00000010
+#define GPIO_POL_1	0X00000014
+#define GPIO_POL_2	0X00000018
 
 #define ra_inl(addr)  (*(volatile u32 *)(addr))
 #define ra_outl(addr, value)  (*(volatile u32 *)(addr) = (value))
 #define ra_and(addr, value) ra_outl(addr, (ra_inl(addr) & (value)))
 #define ra_or(addr, value) ra_outl(addr, (ra_inl(addr) | (value)))
 int webgpio;
+
+void led_enable(void){
+	/* set gpio 44 as output*/
+	ra_and(GPIO_SYSCTL + GPIO2_MODE,~(0x00000003) );
+	ra_or(GPIO_SYSCTL + GPIO2_MODE, (0x00000001) );
+	ra_or(GPIO_REG + GPIO_DIR_1 , (0x0001 << 12) );
+}
+
+void led_on(void){
+	/* set gpi0 44 high */
+	ra_or(GPIO_REG + GPIO_DATA_1, (0x0001 << 12) );
+//	printf("led is on\n");
+}
+
+void led_off(void){
+	/* set gpi0 44 low */
+	ra_and(GPIO_REG + GPIO_DATA_1, ~(0x0001 << 12) );
+//	printf("led is off\n");
+}
+
 int reset_button_enable(int gpio){
-	/* set gpio0 as input */
-	ra_and(GPIO_REG + 0x0024, 0xFFFFFFFE);
-	/* set gpio 27 as input*/
-	ra_and(GPIO_REG + 0x0074, ~(0x0001 << 5) );
-	if ((ra_inl(GPIO_REG + 0x0024) & 0x00000001) == 0x00000000){
-		printf("Hold GPIO %i high for 3 then release to trigger webpage to load image\n", webgpio);
+	/* set gpio 38 as input with inverted polarity*/
+	ra_and(GPIO_REG + GPIO_DIR_1, ~(0x0001 << 6 ) );
+	ra_or(GPIO_REG + GPIO_POL_1, (0x0001 << 6 ) );
+	printf("Hold button for 3 seconds then release to trigger webpage to load image\n", webgpio);
+}	
+int reset_button_status(void){
+	unsigned reg = 0x00000000;
+	reg = ra_inl( (GPIO_REG + GPIO_DATA_1) );
+	if ( reg & (0x0001 << 6) ){
 		return 1;
 	}else{
 		return 0;
-	}
-}	
-int reset_button_status(void){
-
-/*	if (ra_inl(GPIO_REG + 0x0020) & 0x0001 == 0x00000001){
- *			return 1;
- *				}*/
-/*	if ((((ra_inl(GPIO_REG + 0x0070) & (0x0001 << 5))  >> 5) == 0x00000001) || (ra_inl(GPIO_REG + 0x0020) & 0x0001 == 0x00000001))*/
-	if (webgpio == 0){
-		if ( (ra_inl(GPIO_REG + 0x0020) & 0x0001 == 0x00000001) ){
-			return 1;
-		}
-	}else if (webgpio == 27){
-		if ( (((ra_inl(GPIO_REG + 0x0070) & (0x0001 << 5))  >> 5) == 0x00000001) ){
-			return 1;
-		}
-	}
-	return 0;
-				
+	}			
 }
 
 void OperationSelect(void)
 {
+	led_enable();
+	led_on();
 	printf("\nPlease choose the operation: \n");
+	printf("   %d: Load system code then write to Flash via SERIAL. \n", SEL_LOAD_LINUX_WRITE_FLASH_BY_SERIAL);
 	printf("   %d: Load system code to SDRAM via TFTP. \n", SEL_LOAD_LINUX_SDRAM);
 	printf("   %d: Load system code then write to Flash via TFTP. \n", SEL_LOAD_LINUX_WRITE_FLASH);
 	printf("   %d: Boot system code via Flash (default).\n", SEL_BOOT_FLASH);
 #ifdef RALINK_CMDLINE
 	printf("   %d: Entr boot command line interface.\n", SEL_ENTER_CLI);
 #endif // RALINK_CMDLINE //
+	printf("   %d: Load system code then write to Flash via USB Storage.\n", SEL_LOAD_LINUX_WRITE_FLASH_BY_USB);
 #ifdef RALINK_UPGRADE_BY_SERIAL
 	printf("   %d: Load Boot Loader code then write to Flash via Serial. \n", SEL_LOAD_BOOT_WRITE_FLASH_BY_SERIAL);
 #endif // RALINK_UPGRADE_BY_SERIAL //
@@ -2001,14 +2024,14 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
 	    s = getenv ("bootdelay");
 	    timer1 = s ? (int)simple_strtol(s, NULL, 10) : CONFIG_BOOTDELAY;
 	}
-	int web_enabled, reset_button, threeseconds = 0, web_timer = 0;
+	int web_enabled, reset_button, threeseconds = 0, sixseconds = 0, nineseconds = 0, web_timer = 0;
 	{
 	    char * s;
    	    s = getenv ("webgpio");
     	    webgpio = s ? (int)simple_strtol(s, NULL, 10) : CONFIG_WEBGPIO;
     	}
 	if (webgpio == 27){
-		web_enabled = reset_button_enable(0);
+		web_enabled = reset_button_enable(27);
 	}else{
 		web_enabled = reset_button_enable(0);
 	}
@@ -2017,6 +2040,8 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
 	printf("GPIO %i is %s \n", webgpio, (reset_button ? "high" : "low"));
 
 	OperationSelect();   
+	int led_is_on = 1;
+	int led_rate = 40;
 	while (timer1 > 0) {
 		--timer1;
 		/* delay 100 * 10ms */
@@ -2029,25 +2054,64 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
 				printf("\n\rYou chose %c\n\n", BootType);
 				break;
 			}
+			if ( (i % led_rate)  == 0){
+				/* toggle led */
+				if (led_is_on){
+					led_off();
+					led_is_on = 0;
+				}
+				else{
+					led_on();
+					led_is_on = 1;
+				}
+			}
+			/* button changed */
 			if (reset_button_status() != reset_button){
 				printf("GPIO %i went %s\n", webgpio, reset_button ? "low" : "high");
 				reset_button = (reset_button == 0) ? 1 : 0;
 			}
-			if (reset_button == 1 && web_enabled){
+			if (reset_button){
+	    			char * s;
+	    			s = getenv ("bootdelay");
+	    			timer1 = s ? (int)simple_strtol(s, NULL, 10) : CONFIG_BOOTDELAY;
+			}
+			if (reset_button && web_enabled){
 				web_timer += 1;
+				if (web_timer < 300) led_rate = 20;
 				if (web_timer == 300){
-					printf("release GPIO %i now\n", webgpio);
+					printf("release GPIO %i now for web load\n", webgpio);
 					threeseconds = 1;
+					led_rate = 10;
+				}
+				if (web_timer == 600){
+					printf("release GPIO %i now for usb load\n", webgpio);
+					sixseconds = 1;
+					led_rate = 5;
+				}
+				if (web_timer == 900){
+					printf("too late \n");
+					nineseconds = 1;
+					led_rate = 40;
 				}
 			}
-			if (reset_button == 0) web_timer = 0;
-			if (reset_button == 0 && threeseconds == 1 && web_timer <= 500){
+			/* button was held for between 3 and 6 seconds */
+			if (reset_button == 0 && threeseconds && !sixseconds){
 				BootType = '8';
 				break;
 			}	
+			/* button was held for between 6 and 9 seconds */
+			if (reset_button == 0 && sixseconds && !nineseconds){
+				BootType = '5';
+				break;
+			}	
+			/* button was held less than 3 or more than 9 seconds */
+			if (reset_button == 0 && (!threeseconds || nineseconds)){
+			       	web_timer = 0;
+				threeseconds = sixseconds = nineseconds = 0;
+			}
 			udelay (10000);
 		}
-		printf ("\b\b\b%2d ", timer1);
+		printf ("\b\b\b\b%2d ", timer1);
 	}
 	putc ('\n');
 	if(BootType == '3') {
