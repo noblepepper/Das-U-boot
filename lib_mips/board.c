@@ -888,6 +888,11 @@ __attribute__((nomips16)) void board_init_f(ulong bootflag)
 #define SEL_LOAD_BOOT_WRITE_FLASH       9
 #define SEL_LOAD_WEBPAGE		8
 
+
+/********************
+ * GPIO stuff
+ * *****************/
+
 #define DEFAULT_GPIO_FOR_WEBMODE 0
 
 #define GPIO_SYSCTL	0x10000000
@@ -903,6 +908,35 @@ __attribute__((nomips16)) void board_init_f(ulong bootflag)
 #define GPIO_POL_0	0X00000010
 #define GPIO_POL_1	0X00000014
 #define GPIO_POL_2	0X00000018
+
+#define PWM1_MODE_MASK	0xC0000000
+#define PWM0_MODE_MASK	0x30000000
+#define UART2_MODE_MASK	0x0C000000
+#define UART1_MODE_MASK	0x03000000
+#define I2C_MODE_MASK	0x00300000
+#define RCLK_MODE_MASK	0x00040000
+#define PERST_MODE_MASK	0x00010000
+#define WDT_MODE_MASK	0x00004000
+#define SPI_MODE_MASK	0x00001000
+#define SD_MODE_MASK	0x00000C00
+#define UART0_MODE_MASK	0x00000300
+#define I2S_MODE_MASK	0x000000C0
+#define CS1_MODE_MASK	0x00000030
+#define SPIS_MODE_MASK	0x0000000C
+#define GPIO_MODE_MASK	0x00000003
+
+#define LED4K_MODE_MASK	0x0c000000
+#define LED3K_MODE_MASK	0x03000000
+#define LED2K_MODE_MASK	0x00C00000
+#define LED1K_MODE_MASK	0x00300000
+#define LED0K_MODE_MASK	0x000C0000
+#define WLEDK_MODE_MASK	0x00030000
+#define LED4A_MODE_MASK	0x00000C00
+#define LED3A_MODE_MASK	0x00000300
+#define LED2A_MODE_MASK	0x000000C0
+#define LED1A_MODE_MASK	0x00000030
+#define LED0A_MODE_MASK	0x0000000C
+#define WLEDA_MODE_MASK	0x00000003
 
 #define ra_inl(addr)  (*(volatile u32 *)(addr))
 #define ra_outl(addr, value)  (*(volatile u32 *)(addr) = (value))
