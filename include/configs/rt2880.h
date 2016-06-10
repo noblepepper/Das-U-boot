@@ -28,6 +28,29 @@
 #ifndef __CONFIG_H
 #define __CONFIG_H
 
+#define CFG_PROMPT "VoCore2 >"
+
+#define CONFIG_BOOTDELAY	10	/* autoboot after 10 seconds	*/
+
+#define CONFIG_NET_MULTI
+
+#define CONFIG_WEBGPIO 38
+
+#define CONFIG_LED 44
+
+#define CONFIG_BAUDRATE	460800
+
+#define CONFIG_SERVERIP 192.168.1.3
+
+#define CONFIG_IPADDR 192.168.1.123
+
+#define CONFIG_ETHADDR "00:AA:BB:CC:DD:10"
+
+#define SERIAL_CLOCK_DIVISOR 16
+
+/* valid baudrates */
+#define CFG_BAUDRATE_TABLE	{ 9600, 19200, 38400, 57600, 115200, 230400, 460800 }
+
 #ifndef __ASSEMBLY__ 
 #if defined(CFG_ENV_IS_IN_NAND) /* Environment is in NAND Flash */
 #if defined(MTK_NAND) 
@@ -90,22 +113,6 @@ extern unsigned int  CFG_BLOCKSIZE;
 
 #endif 
 
-#define SERIAL_CLOCK_DIVISOR 16
-
-#define CONFIG_BOOTDELAY	10	/* autoboot after 5 seconds	*/
-
-#define CONFIG_NET_MULTI
-
-#define CONFIG_WEBGPIO 38
-
-#define CONFIG_BAUDRATE	460800
-
-#define CONFIG_SERVERIP 10.10.10.3
-#define CONFIG_IPADDR 10.10.10.123
-#define CONFIG_ETHADDR "00:AA:BB:CC:DD:10"
-/* valid baudrates */
-#define CFG_BAUDRATE_TABLE	{ 9600, 19200, 38400, 57600, 115200, 230400, 460800 }
-
 //#define	CONFIG_TIMESTAMP		/* Print image info with timestamp */
 
 #undef	CONFIG_BOOTARGS
@@ -120,6 +127,7 @@ extern unsigned int  CFG_BLOCKSIZE;
  */
 #define	CFG_LONGHELP				/* undef to save memory      */
 
+#ifndef CFG_PROMPT
 #if defined (RT2880_FPGA_BOARD) || defined (RT2880_ASIC_BOARD) 
 #define	CFG_PROMPT		"RT2880 # "
 #elif defined (RT2883_FPGA_BOARD) || defined (RT2883_ASIC_BOARD) 
@@ -141,10 +149,10 @@ extern unsigned int  CFG_BLOCKSIZE;
 #elif defined (MT7621_FPGA_BOARD) || defined (MT7621_ASIC_BOARD) 
 #define	CFG_PROMPT		"MT7621 # "
 #elif defined (MT7628_FPGA_BOARD) || defined (MT7628_ASIC_BOARD) 
-//#define	CFG_PROMPT		"MT7628 # "
-#define CFG_PROMPT		"VoCore2> "
+#define	CFG_PROMPT		"MT7628 # "
 #else
 #define	CFG_PROMPT		"RTxxxx # "
+#endif
 #endif
 #define	CFG_CBSIZE		256		/* Console I/O Buffer Size   */
 #define	CFG_PBSIZE (CFG_CBSIZE+sizeof(CFG_PROMPT)+16)  /* Print Buffer Size */
