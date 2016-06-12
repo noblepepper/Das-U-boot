@@ -974,13 +974,13 @@ struct chip_info *chip_prob(void)
 
 	raspi_read_devid(buf, 5);
 	jedec = (u32)((u32)(buf[1] << 24) | ((u32)buf[2] << 16) | ((u32)buf[3] <<8) | (u32)buf[4]);
-
+#ifndef CHANGEABLE_BAUDRATE
 #ifdef BBU_MODE
 	printf("flash manufacture id: %x, device id %x %x\n", buf[0], buf[1], buf[2]);
 #else
 	printf("spi device id: %x %x %x %x %x (%x)\n", buf[0], buf[1], buf[2], buf[3], buf[4], jedec);
 #endif
-
+#endif
 	// FIXME, assign default as AT25D
 	weight = 0xffffffff;
 	match = &chips_data[0];
@@ -994,7 +994,9 @@ struct chip_info *chip_prob(void)
 			if (info->jedec_id == jedec)
 #endif
 			{
+#ifndef CHANGEABLE_BAUDRATE
 				printf("find flash: %s\n", info->name);
+#endif
 				return info;
 			}
 

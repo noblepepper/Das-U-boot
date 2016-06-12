@@ -93,7 +93,7 @@ void bbu_uart_init(void)
 /* this function does not need to know the cpu and bus clock after RT3883. the clock is fix at 40Mhz */
 void serial_setbrg (void)
 {
-	//DECLARE_GLOBAL_DATA_PTR;
+	DECLARE_GLOBAL_DATA_PTR;
 	unsigned int clock_divisor = 0;
 #if defined(RT2880_FPGA_BOARD) || defined(RT2880_ASIC_BOARD) || \
     defined(RT3052_FPGA_BOARD) || defined(RT3052_ASIC_BOARD)
@@ -213,22 +213,23 @@ void serial_setbrg (void)
     defined(RT5350_ASIC_BOARD) || defined(RT5350_FPGA_BOARD) || \
     defined(RT6855_ASIC_BOARD) || defined(RT6855_FPGA_BOARD) || \
     defined(MT7620_ASIC_BOARD) || defined(MT7620_FPGA_BOARD)
-	clock_divisor = (40*1000*1000/ SERIAL_CLOCK_DIVISOR / CONFIG_BAUDRATE);
+	clock_divisor = (40*1000*1000/ SERIAL_CLOCK_DIVISOR / gd->baudrate);
 #elif  defined(MT7621_ASIC_BOARD) || defined(MT7621_FPGA_BOARD)
-	clock_divisor = (50 * 1000*1000/ SERIAL_CLOCK_DIVISOR / CONFIG_BAUDRATE);
+	clock_divisor = (50 * 1000*1000/ SERIAL_CLOCK_DIVISOR / gd->baudrate);
 #elif defined(MT7628_ASIC_BOARD) || defined(MT7628_FPGA_BOARD)
-#if CONFIG_BAUDRATE <= 115200
-	clock_divisor = (40*1000*1000/ SERIAL_CLOCK_DIVISOR / CONFIG_BAUDRATE);
-#elif CONFIG_BAUDRATE == 230400
-	clock_divisor = (40*1000*1000/ SERIAL_CLOCK_DIVISOR * 2 / CONFIG_BAUDRATE);
-	/* set uart to high speed mode 1 */
-	HSP(CFG_RT2880_CONSOLE) = 0X01;
-#elif CONFIG_BAUDRATE > 230400
-	clock_divisor = (40*1000*1000/ SERIAL_CLOCK_DIVISOR * 4 / CONFIG_BAUDRATE);
-	/* set uart to high speed mode 2 */
-	HSP(CFG_RT2880_CONSOLE) = 0X02;
-#endif
-
+	if (gd->baudrate <= 115200){
+		clock_divisor = (40*1000*1000/ SERIAL_CLOCK_DIVISOR / gd->baudrate);
+		/* set uart to high speed mode 0 */
+		HSP(CFG_RT2880_CONSOLE) = 0X00;
+	}else if(gd->baudrate == 230400){
+		clock_divisor = (40*1000*1000/ SERIAL_CLOCK_DIVISOR * 2 / gd->baudrate);
+		/* set uart to high speed mode 1 */
+		HSP(CFG_RT2880_CONSOLE) = 0X01;
+	}else if(gd->baudrate ==460800){
+		clock_divisor = (40*1000*1000/ SERIAL_CLOCK_DIVISOR * 4 / gd->baudrate);
+		/* set uart to high speed mode 2 */
+		HSP(CFG_RT2880_CONSOLE) = 0X02;
+	}
 #else
 	clock_divisor = (mips_bus_feq/ SERIAL_CLOCK_DIVISOR / CONFIG_BAUDRATE);
 #endif

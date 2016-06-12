@@ -503,8 +503,9 @@ static int init_func_ram (void)
 #else
 	int board_type = 0;	/* use dummy arg */
 #endif
+#ifndef	CHANGEABLE_BAUDRATE
 	puts ("DRAM:  ");
-
+#endif
 /*init dram config*/
 #ifdef RALINK_DDR_OPTIMIZATION
 #ifdef ON_BOARD_DDR2
@@ -524,11 +525,13 @@ static int init_func_ram (void)
 
 
 	if ((gd->ram_size = initdram (board_type)) > 0) {
-		print_size (gd->ram_size, "\n");
+	//	print_size (gd->ram_size, "\n");
 		return (0);  
 	}
+#ifndef	CHANGEABLE_BAUDRATE
 	puts ("*** failed ***\n");
 
+#endif
 	return (1);
 }
 
@@ -728,8 +731,10 @@ __attribute__((nomips16)) void board_init_f(ulong bootflag)
 	(*ptr)();
 #endif	
 #endif
+#ifndef CHANGEABLE_BAUDRATE
 	display_banner();		/* say that we are here */
 	checkboard();
+#endif
 
 	init_func_ram(); 
 
@@ -1510,6 +1515,7 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
 #endif
 
 	u32 reg = RALINK_REG(RT2880_RSTSTAT_REG);
+#ifndef CHANGEABLE_BAUDRATE
 	if(reg & RT2880_WDRST ){
 		printf("***********************\n");
 		printf("Watchdog Reset Occurred\n");
@@ -1532,15 +1538,20 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
 		RALINK_REG(RT2880_RSTSTAT_REG)&=~RT2880_SWCPURST;
 		trigger_hw_reset();
 	}
+#endif
 
 #ifdef DEBUG
+#ifndef CHANGEABLE_BAUDRATE
 	debug ("Now running in RAM - U-Boot at: %08lx\n", dest_addr);
+#endif
 #endif
 	gd->reloc_off = dest_addr - CFG_MONITOR_BASE;
 
 	monitor_flash_len = (ulong)&uboot_end_data - dest_addr;
-#ifdef DEBUG	
+#ifndef CHANGEABLE_BAUDRATE
+#ifdef DEBUG
 	debug("\n monitor_flash_len =%d \n",monitor_flash_len);
+#endif
 #endif	
 	/*
 	 * We have to relocate the command table manually
@@ -1549,9 +1560,11 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
 		ulong addr;
 
 		addr = (ulong) (cmdtp->cmd) + gd->reloc_off;
+#ifndef CHANGEABLE_BAUDRATE
 #ifdef DEBUG
 		printf ("Command \"%s\": 0x%08lx => 0x%08lx\n",
 				cmdtp->name, (ulong) (cmdtp->cmd), addr);
+#endif
 #endif
 		cmdtp->cmd =
 			(int (*)(struct cmd_tbl_s *, int, int, char *[]))addr;
@@ -1636,6 +1649,33 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
 	nand_env_init();
 #elif defined (CFG_ENV_IS_IN_SPI)
 	spi_env_init();
+#ifdef CHANGEABLE_BAUDRATE
+	s = getenv("baudrate");
+	gd->baudrate =  simple_strtoul (s, NULL, 10);
+	serial_init();
+	if(reg & RT2880_WDRST ){
+		printf("***********************\n");
+		printf("Watchdog Reset Occurred\n");
+		printf("***********************\n");
+		RALINK_REG(RT2880_RSTSTAT_REG)|=RT2880_WDRST;
+		RALINK_REG(RT2880_RSTSTAT_REG)&=~RT2880_WDRST;
+		trigger_hw_reset();
+	}else if(reg & RT2880_SWSYSRST){
+		printf("******************************\n");
+		printf("Software System Reset Occurred\n");
+		printf("******************************\n");
+		RALINK_REG(RT2880_RSTSTAT_REG)|=RT2880_SWSYSRST;
+		RALINK_REG(RT2880_RSTSTAT_REG)&=~RT2880_SWSYSRST;
+		trigger_hw_reset();
+	}else if (reg & RT2880_SWCPURST){
+		printf("***************************\n");
+		printf("Software CPU Reset Occurred\n");
+		printf("***************************\n");
+		RALINK_REG(RT2880_RSTSTAT_REG)|=RT2880_SWCPURST;
+		RALINK_REG(RT2880_RSTSTAT_REG)&=~RT2880_SWCPURST;
+		trigger_hw_reset();
+	}
+#endif
 #else //CFG_ENV_IS_IN_FLASH
 #endif //CFG_ENV_IS_IN_FLASH
 

@@ -98,8 +98,13 @@ typedef volatile unsigned char	vu_char;
 #include <image.h>
 
 #ifdef	DEBUG
+#ifndef CHANGEABLE_BAUDRATE
 #define debug(fmt,args...)	printf (fmt ,##args)
 #define debugX(level,fmt,args...) if (DEBUG>=level) printf(fmt,##args);
+#else
+#define debug(fmt,args...)
+#define debugX(level,fmt,args...)
+#endif
 #else
 #define debug(fmt,args...)
 #define debugX(level,fmt,args...)
