@@ -2064,11 +2064,6 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
    	    s = getenv ("webgpio");
     	    webgpio = s ? (int)simple_strtol(s, NULL, 10) : CONFIG_WEBGPIO;
     	}
-	if (webgpio == 27){
-		web_enabled = reset_button_enable(27);
-	}else{
-		web_enabled = reset_button_enable(0);
-	}
 	reset_button = reset_button_status();
 	printf("GPIO %i used to trigger webpage\n", webgpio);
 	printf("GPIO %i is %s \n", webgpio, (reset_button ? "high" : "low"));
@@ -2100,32 +2095,34 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
 				}
 			}
 			/* button changed */
-			if (reset_button_status() != reset_button){
-				printf("GPIO %i went %s\n", webgpio, reset_button ? "low" : "high");
-				reset_button = (reset_button == 0) ? 1 : 0;
-			}
-			if (reset_button){
-	    			char * s;
-	    			s = getenv ("bootdelay");
-	    			timer1 = s ? (int)simple_strtol(s, NULL, 10) : CONFIG_BOOTDELAY;
-			}
-			if (reset_button && web_enabled){
-				web_timer += 1;
-				if (web_timer < 300) led_rate = 20;
-				if (web_timer == 300){
-					printf("release GPIO %i now for web load\n", webgpio);
-					threeseconds = 1;
-					led_rate = 10;
+			if (getenv("webenabled")=="yes"){
+				if (reset_button_status() != reset_button){
+					printf("GPIO %i went %s\n", webgpio, reset_button ? "low" : "high");
+					reset_button = (reset_button == 0) ? 1 : 0;
 				}
-				if (web_timer == 600){
-					printf("release GPIO %i now for usb load\n", webgpio);
-					sixseconds = 1;
-					led_rate = 5;
+				if (reset_button){
+	    				char * s;
+	    				s = getenv ("bootdelay");
+	    				timer1 = s ? (int)simple_strtol(s, NULL, 10) : CONFIG_BOOTDELAY;
 				}
-				if (web_timer == 900){
-					printf("too late \n");
-					nineseconds = 1;
-					led_rate = 40;
+				if (reset_button && web_enabled){
+					web_timer += 1;
+					if (web_timer < 300) led_rate = 20;
+					if (web_timer == 300){
+						printf("release GPIO %i now for web load\n", webgpio);
+						threeseconds = 1;
+						led_rate = 10;
+					}	
+					if (web_timer == 600){
+						printf("release GPIO %i now for usb load\n", webgpio);
+						sixseconds = 1;
+						led_rate = 5;
+					}
+					if (web_timer == 900){
+						printf("too late \n");
+						nineseconds = 1;
+						led_rate = 40;
+					}
 				}
 			}
 			/* button was held for between 3 and 6 seconds */
