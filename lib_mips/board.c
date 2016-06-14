@@ -972,7 +972,6 @@ int reset_button_enable(int gpio){
 	/* set gpio 38 as input with inverted polarity*/
 	ra_and(GPIO_REG + GPIO_DIR_1, ~(0x0001 << 6 ) );
 	ra_or(GPIO_REG + GPIO_POL_1, (0x0001 << 6 ) );
-	printf("Hold button for 3 seconds then release to trigger webpage to load image\n", webgpio);
 }	
 int reset_button_status(void){
 	unsigned reg = 0x00000000;
@@ -2116,6 +2115,7 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
 		web_enabled = 1;
 		printf("gpio trigger enabled");
 		printf("GPIO %i used to trigger webpage\n", webgpio);
+		printf("Hold button for 3 seconds then release to trigger webpage to load image\n", webgpio);
 		printf("GPIO %i is %s \n", webgpio, (reset_button ? "high" : "low"));
 	}
 	while (timer1 > 0) {
