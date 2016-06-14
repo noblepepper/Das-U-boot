@@ -15,8 +15,7 @@ all:  $(LIB)
 fs.c:   fsdata.c
 
 fsdata.c:
-	    ./vendors/makefsdatac $(DEVICE_VENDOR)
-
+	./vendors/makefsdatac vocore 
 
 $(LIB):  $(START) $(OBJS)
 	   $(AR) crv $@ $(OBJS)
