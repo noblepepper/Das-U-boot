@@ -2104,13 +2104,20 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
    	    s = getenv ("webgpio");
     	    webgpio = s ? (int)simple_strtol(s, NULL, 10) : CONFIG_WEBGPIO;
     	}
+	reset_button_enable(38);
 	reset_button = reset_button_status();
-	printf("GPIO %i used to trigger webpage\n", webgpio);
-	printf("GPIO %i is %s \n", webgpio, (reset_button ? "high" : "low"));
 
 	OperationSelect();   
+	web_enabled = 0;
 	int led_is_on = 1;
 	int led_rate = 40;
+	s = getenv("gpioenabled");
+	if ( strcmp(s,"yes") == 0 ){
+		web_enabled = 1;
+		printf("gpio trigger enabled");
+		printf("GPIO %i used to trigger webpage\n", webgpio);
+		printf("GPIO %i is %s \n", webgpio, (reset_button ? "high" : "low"));
+	}
 	while (timer1 > 0) {
 		--timer1;
 		/* delay 100 * 10ms */
@@ -2135,7 +2142,7 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
 				}
 			}
 			/* button changed */
-			if (getenv("webenabled")=="yes"){
+			if (web_enabled){
 				if (reset_button_status() != reset_button){
 					printf("GPIO %i went %s\n", webgpio, reset_button ? "low" : "high");
 					reset_button = (reset_button == 0) ? 1 : 0;
