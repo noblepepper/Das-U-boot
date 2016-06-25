@@ -133,6 +133,12 @@ uchar default_environment[] = {
 #if defined(CONFIG_PCI_BOOTDELAY) && (CONFIG_PCI_BOOTDELAY > 0)
 	"pcidelay="	MK_STR(CONFIG_PCI_BOOTDELAY)	"\0"
 #endif
+#ifdef  CONFIG_WEBGPIO
+	"webgpio="	MK_STR(CONFIG_WEBGPIO)		"\0"
+#endif
+#ifdef  CONFIG_GPIOENABLED
+	"gpioenabled="	MK_STR(CONFIG_GPIOENABLED)	"\0"
+#endif
 	"\0"
 };
 
