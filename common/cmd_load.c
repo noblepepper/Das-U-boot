@@ -572,6 +572,7 @@ static ulong load_serial_bin (ulong offset)
 	printf("## Total Size      = 0x%08x = %d Bytes\n", size, size);
 	sprintf(buf, "%X", size);
 	setenv("filesize", buf);
+	NetBootFileXferSize = size;
 
 	return offset;
 }
