@@ -178,9 +178,9 @@ void serial_setbrg (void)
       defined(RT6855_ASIC_BOARD) || defined(RT6855_FPGA_BOARD) || \
       defined(MT7620_ASIC_BOARD) || defined(MT7620_FPGA_BOARD) || \
       defined(MT7628_ASIC_BOARD) || defined(MT7628_FPGA_BOARD)
-	*(unsigned long *)(RALINK_SYSCTL_BASE + 0x0034) |= cpu_to_le32(1<<19|1<<12);
+	*(unsigned long *)(RALINK_SYSCTL_BASE + 0x0034) |= cpu_to_le32(1<<20|1<<19|1<<12);
 	/* RST Control change from W1C to W1W0 to reset, update 20080812 */
-	*(unsigned long *)(RALINK_SYSCTL_BASE + 0x0034) &= ~(1<<19|1<<12);
+	*(unsigned long *)(RALINK_SYSCTL_BASE + 0x0034) &= ~(1<<20|1<<19|1<<12);
 
 #if 0
 	u32 reg;
@@ -217,6 +217,8 @@ void serial_setbrg (void)
 #elif  defined(MT7621_ASIC_BOARD) || defined(MT7621_FPGA_BOARD)
 	clock_divisor = (50 * 1000*1000/ SERIAL_CLOCK_DIVISOR / gd->baudrate);
 #elif defined(MT7628_ASIC_BOARD) || defined(MT7628_FPGA_BOARD)
+	/* set PWM/UART3 (UART2 in datasheet) function on SPIS group */
+	ra_or(RALINK_SYSCTL_BASE + 0x0060, (1<<2|1<<3));
 	if (gd->baudrate <= 115200){
 		clock_divisor = (40*1000*1000/ SERIAL_CLOCK_DIVISOR / gd->baudrate);
 		/* set uart to high speed mode 0 */

@@ -1510,9 +1510,9 @@ if [ "$MT7628_CPU_PLL_PARAMETERS" = "y" ]; then
 fi
 
 bool "Dual Image" DUAL_IMAGE_SUPPORT
-bool "ETH One Port Only" ETH_ONE_PORT_ONLY
+bool "ETH One Port Only" CONFIG_ETH_ONE_PORT_ONLY
 
-if [ "$ETH_ONE_PORT_ONLY" = "n" ]; then
+if [ "$CONFIG_ETH_ONE_PORT_ONLY" = "n" ]; then
 bool "Partition LAN/WAN" LAN_WAN_PARTITION
 if [ "$LAN_WAN_PARTITION" = "y" ]; then
  choice 'LAN/WAN Board Layout' "W/LLLL RALINK_DEMO_BOARD_PVLAN \
