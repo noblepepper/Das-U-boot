@@ -2137,9 +2137,10 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
 	s = getenv("gpioenabled");
 	if ( strcmp(s,"yes") == 0 ){
 		web_enabled = 1;
-		printf("gpio trigger enabled");
+		printf("gpio trigger enabled\n");
 		printf("GPIO %i used to trigger webpage\n", webgpio);
-		printf("Hold button for 3 seconds then release to trigger webpage to load image\n", webgpio);
+		printf("Hold button for between 3 seconds and 6 seconds\n\tthen release to trigger webpage to load image\n", webgpio);
+		printf("Hold button for between 6 seconds and 9 seconds \n\tthen release to trigger loading image from USBSTORAGE\n", webgpio);
 		printf("GPIO %i is %s \n", webgpio, (reset_button ? "high" : "low"));
 	}
 	while (timer1 > 0) {
