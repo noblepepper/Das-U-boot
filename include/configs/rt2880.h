@@ -28,7 +28,7 @@
 #ifndef __CONFIG_H
 #define __CONFIG_H
 
-#define CFG_PROMPT "VoCore2 >"
+#define CFG_PROMPT "VoCore2 > "
 
 #define CONFIG_BOOTDELAY	10	/* autoboot after 10 seconds	*/
 
